@@ -2,7 +2,7 @@
 title: "Projects"
 ---
 
-* [Project 1]()
-* [Project 2]()
-* [Project 3]()
-* [Project 4]()
+* [STT 2860 Project 1]()
+* [STT 2860 Project 2]()
+* [STT 2860 Project 3]()
+* [STT 2860 Project 4]()

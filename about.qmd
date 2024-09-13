@@ -2,13 +2,13 @@
 title: "About Me"
 ---
 
-This is where you get to write about yourself.
+Hello world, I have once again been asked to make a website for a class. But with code instead of Wix this time.
 
-If your favorite color is purple you might show a graph that uses purple.
+Going off the sample text, have a random graph in green. 
 
 ```{r}
 #| echo: false
 set.seed(123)
-hist(rnorm(10000), col = "purple", main = "Purple Histogram", xlab = "")
+hist(rnorm(10000), col = "darkgreen", main = "Green Histogram", xlab = "")
 ```
 

@@ -1,11 +1,14 @@
 ---
-title: "Quarto Web Demo"
+title: "STT 2860 Quarto Webpage"
 ---
 
-This is the main landing page!
+Hello! Welcome to the website of all websites. 
+
+* To do the [wordle](https://www.nytimes.com/games/wordle/).
 
 * To learn more about [geezers](https://www.thegeezer.com/).
 
 * To learn more about [Quarto websites](https://quarto.org/docs/websites).
 
+* To learn more about [Carl the Fog](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 

@@ -4,20 +4,20 @@
     "href": "project.html",
     "title": "Projects",
     "section": "",
-    "text": "Project 1\nProject 2\nProject 3\nProject 4"
+    "text": "STT 2860 Project 1\nSTT 2860 Project 2\nSTT 2860 Project 3\nSTT 2860 Project 4"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About Me",
     "section": "",
-    "text": "This is where you get to write about yourself.\nIf your favorite color is purple you might show a graph that uses purple."
+    "text": "Hello world, I have once again been asked to make a website for a class. But with code instead of Wix this time.\nGoing off the sample text, have a random graph in green."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Quarto Web Demo",
+    "title": "STT 2860 Quarto Webpage",
     "section": "",
-    "text": "This is the main landing page!\n\nTo learn more about geezers.\nTo learn more about Quarto websites."
+    "text": "Hello! Welcome to the website of all websites.\n\nTo do the wordle.\nTo learn more about geezers.\nTo learn more about Quarto websites.\nTo learn more about Carl the Fog."
   }
 ]
