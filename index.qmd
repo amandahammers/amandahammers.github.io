@@ -2,7 +2,7 @@
 title: "STT 2860 Quarto Webpage"
 ---
 
-Hello! Welcome to the website of all websites. 
+Hello! Welcome to the most website of all websites. 
 
 * To do the [wordle](https://www.nytimes.com/games/wordle/).
 
