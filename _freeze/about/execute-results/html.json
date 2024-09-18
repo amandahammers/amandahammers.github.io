@@ -1,7 +1,7 @@
 {
-  "hash": "db9012cb88855467770d061de82bffdd",
+  "hash": "6faeace9a02875e7a35d36d663230cb8",
   "result": {
-    "markdown": "---\ntitle: \"About Me\"\n---\n\n\nHello world, I have once again been asked to make a website for a class. But with code instead of Wix this time.\n\nGoing off the sample text, have a random graph in green. \n\n\n::: {.cell}\n::: {.cell-output-display}\n![](about_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
+    "markdown": "---\ntitle: \"About Me\"\n---\n\n\nHello\n\nI'm Amanda Hammers and this is a website I created during my STT 2860 class, which focuses on Data Management and Visualization. \n\nI'm a Psychology major, but I wanted to try learning about data analysis and coding and visualizing in case it can help me in the future, and because it seems interesting. \n\n* Linked here is my profile on [LinkedIn](www.linkedin.com/in/amanda-hammers-068bbb250)\n\n::: {.cell}\n::: {.cell-output-display}\n![](about_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
     "supporting": [
       "about_files"
     ],

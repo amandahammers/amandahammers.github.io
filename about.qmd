@@ -2,13 +2,12 @@
 title: "About Me"
 ---
 
-Hello world, I have once again been asked to make a website for a class. But with code instead of Wix this time.
+Hello
 
-Going off the sample text, have a random graph in green. 
+I'm Amanda Hammers and this is a website I created during my STT 2860 class, which focuses on Data Management and Visualization. 
 
-```{r}
-#| echo: false
-set.seed(123)
-hist(rnorm(10000), col = "darkgreen", main = "Green Histogram", xlab = "")
-```
+I'm a Psychology major, but I wanted to try learning about data analysis and coding and visualizing in case it can help me in the future, and because it seems interesting. 
+
+* Linked here is my profile on [LinkedIn](www.linkedin.com/in/amanda-hammers-068bbb250)
+
 

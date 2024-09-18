@@ -1,7 +1,9 @@
 ---
 title: "Projects"
 ---
+Here are some of the projects I've worked on so far this semester:
 
+* [Combining Dataset Problems 1-3](https://mathr.appstate.edu/s/778018e26ea0f41220ab9/files/git_repositories/Junk/dplyr-ch2-amandahammers/combining_datasets/combining_datasets_slides.html#/title-slide)
 * [STT 2860 Project 1]()
 * [STT 2860 Project 2]()
 * [STT 2860 Project 3]()

@@ -4,11 +4,13 @@ title: "STT 2860 Quarto Webpage"
 
 Hello! Welcome to the most website of all websites. 
 
-* To do the [wordle](https://www.nytimes.com/games/wordle/).
+Below are links to learn more about Quarto, and to other parts of the website.
 
-* To learn more about [geezers](https://www.thegeezer.com/).
 
 * To learn more about [Quarto websites](https://quarto.org/docs/websites).
 
-* To learn more about [Carl the Fog](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+* To learn more [about me](https://amandahammers.github.io/about.html).
+
+* To see what [projects](https://amandahammers.github.io/project.html) I've done in class.
+
 
