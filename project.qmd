@@ -1,5 +1,5 @@
 ---
-title: "Projects"
+title: "STT 2860 Projects"
 ---
 Here are some of the projects I've worked on so far this semester:
 
