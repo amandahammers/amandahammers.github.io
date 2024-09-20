@@ -2,12 +2,9 @@
 title: "STT 2860 Quarto Webpage"
 ---
 
-Hello! Welcome to the most website of all websites. 
+Hello! Welcome to the most website of all websites, aka the webpage I made for my most recent university statistics class.
 
-Below are links to learn more about Quarto, and to other parts of the website.
-
-
-* To learn more about [Quarto websites](https://quarto.org/docs/websites).
+Please click the links below to explore other parts of the website:
 
 * To learn more [about me](https://amandahammers.github.io/about.html).
 

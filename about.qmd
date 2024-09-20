@@ -6,8 +6,11 @@ Hello
 
 I'm Amanda Hammers and this is a website I created during my STT 2860 class, which focuses on Data Management and Visualization. 
 
-I'm a Psychology major, but I wanted to try learning about data analysis and coding and visualizing in case it can help me in the future, and because it seems interesting. 
+I'm an undergraduate Psychology major at Appalachian State, but I wanted to try learning about data analysis and coding and visualizing in case it can help me in the future, and because it seems interesting. 
+
+![Me](./pics/selfieme.jpg){width=70%}
 
 * Linked here is my profile on [LinkedIn](www.linkedin.com/in/amanda-hammers-068bbb250)
+
 
 
