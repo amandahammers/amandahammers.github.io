@@ -12,16 +12,12 @@ website:
       - project.qmd
     
     tools:
-      - icon: trash
-        href: https://www.mountainproject.com/area/112001458/the-dump
-      - icon: twitter
-        href: https://x.com
       - icon: linkedin
-        href: https://www.linkedin.com/
+        href: www.linkedin.com/in/amanda-hammers-068bbb250
       - icon: github
         menu:
           - text: Source Code
-            href: https://github.com
+            href: https://github.com/amandahammers/amandahammers.github.io
           - text: Report a Bug
             href: https://github.com  
 
