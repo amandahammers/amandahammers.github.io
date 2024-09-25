@@ -21,9 +21,10 @@ website:
 
 format:
   html:
-    theme: minty  # flatly, litera, lumen, lux, minty, pulse, sandstone, zephyr, quartz, yeti, cosmo, sketchy
+    theme: minty  
     css: styles.css
     toc: true
+    mainfont: Palatino, URW Palladio L, serif
 
 execute: 
   freeze: auto

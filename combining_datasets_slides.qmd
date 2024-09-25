@@ -1,0 +1,48 @@
+---
+title: "Combining Data Sets"
+format: revealjs
+editor: visual
+---
+
+## Set Up
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+#install.packages("remotes")
+#remotes::install_github("matthewhirschey/tidybiology", force = TRUE)
+library(tidybiology)
+
+data(happy)
+data(happy_join_one)
+data(happy_full)
+```
+
+## Problem 1
+
+Take a look at the three data frames - `happy`, `happy_join_one`, and `happy_full`
+
+```{r}
+glimpse(happy)
+glimpse(happy_join_one)
+glimpse(happy_full)
+```
+
+## Problem 2
+
+Combine `happy` and `happy_join_one` by row
+
+```{r}
+bind_rows(happy, happy_join_one)
+```
+
+## Problem 3
+
+Combine `happy` and `happy_join_one` by column
+
+```{r}
+nrow(happy) == nrow(happy_join_one)
+```
