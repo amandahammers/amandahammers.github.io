@@ -4,4 +4,5 @@ title: "STT 2860 Projects"
 Here are some of the projects I've worked on so far this semester:
 
 * [Combining Dataset Problems 1-3](combining_datasets_slides.qmd)
+* [Project 1: Partial Replication of Bicycle Sharing in Seattle](https://github.com/STT2860-F2024/bicycle-sharing-amandahammers.git)
 
