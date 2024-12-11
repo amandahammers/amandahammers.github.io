@@ -1,0 +1,371 @@
+---
+title: "Analyzing Data from the 2022 [Music & Mental Health Survey](https://www.kaggle.com/datasets/catherinerasgaitis/mxmh-survey-results/data)"
+date: last-modified
+date-format: "[Last modified on] MMMM DD, YYYY HH:mm:ss zzz"
+format: 
+ html:
+   theme: minty
+author:
+  - name: Amanda Hammers
+    email: hammersae@appstate.edu
+    affiliation:
+      - name: Appalachian State University
+        city: Boone
+        state: NC
+        url: https://www.appstate.edu/
+abstract: >
+ This is a project aiming to analyze parts of the "Music & Mental Health Survey Results" dataset by Catherine Rasgaitis from 2022. 
+keywords:
+  - R
+  - data viz
+license: "CC BY"  
+code-fold: false
+---
+
+# Intro
+
+This project will look at the data provided on the results of the Music & Mental Health Survey from 2022. The Google form asked people to answer several questions about their (self-reported) listening habits, music genres, and mental health.
+
+Let's start!
+
+```{r}
+#| label: "setup"
+#| include: false
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, comment = NA, fig.align = "center")
+```
+
+## Loading the Packages We'll Need
+
+```{r}
+#| label: "needed"
+# For data manipulation and tidying
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+# For mapping
+library(ggmap)
+library(mapproj)
+
+# For data visualizations
+library(ggplot2)
+library("RColorBrewer")
+library("viridis")  
+
+# For modeling and machine learning
+library(caret)
+```
+
+## Now To Import the Data
+
+The data was downloaded from [Kaggle](https://www.kaggle.com/datasets/catherinerasgaitis/mxmh-survey-results/data). The dataset contains one dataset.
+
+```{r}
+results <- read.csv(file = "mxmh_survey_results.csv")
+```
+
+## And Time to Look Through It
+
+I'll start by just getting a general look at the data file.
+
+```{r, echo=FALSE}
+glimpse(results)
+```
+
+Wow, that's kind of a lot!
+
+I wonder how many variables that actually is, let me see with `ncol`. It looks like there are `r ncol(results)` variables.
+
+In order for me to better understand what I'm looking at, I'm going to give a description of each variable:
+
+1. `Timestamp`: Date and time when form was submitted in MM/DD/YYYY HH:MM:SS format
+
+2. `Age`: Respondent's age, in years
+
+3. `Primary.streaming.service`: Respondent's primary streaming service ("Spotify", "Pandora", "YouTube Music", etc.)
+
+4. `Hours.per.day`: Number of hours the respondent listens to music per day, in .5 increments
+
+5. `While.working`: If respondent listens to music while studying/working or not ("Yes"/"No")
+
+6. `Instrumentalist`: If respondent plays an instrument regularly or not ("Yes"/"No")
+
+7. `Composer`: If respondent regularly composes music or not ("Yes"/"No")
+
+8. `Fav.genre`: Respondent's favorite or top genre ("Pop", "Video Game Music", "Rap", etc.)
+
+9. `Exploratory`: If respondent actively explores new artists/genres ("Yes"/"No")
+
+10. `Foreign.languages`: If respondent regularly listens to music with lyrics in a language they are not fluent in ("Yes"/"No")
+
+11. `BPM`: beats per minute of favorite genre
+
+12. `Frequency..Classical.`: How frequently respondent listens to classical music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+13. `Frequency..Country.`: How frequently respondent listens to country music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+14. `Frequency..EDM.`: How frequently respondent listens to EDM music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+15. `Frequency..Folk.`: How frequently respondent listens to Folk music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+16. `Frequency..Gospel.`: How frequently respondent listens to Gospel music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+17. `Frequency..Hip.hop.`: How frequently respondent listens to Hip Hop music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+18. `Frequency..Jazz.`: How frequently respondent listens to Jazz music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+19. `Frequency..K.pop.`: How frequently respondent listens to K-Pop music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+20. `Frequency..Latin.`: How frequently respondent listens to Latin music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+21. `Frequency..Lofi.`: How frequently respondent listens to Lofi music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+22. `Frequency..Metal.`: How frequently respondent listens to Metal music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+23. `Frequency..Pop.`: How frequently respondent listens to Pop music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+24. `Frequency..R.B.`: How frequently respondent listens to R&B music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+25. `Frequency..Rap.`: How frequently respondent listens to Rap music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+26. `Frequency..Rock.`: How frequently respondent listens to Rock music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+27. `Frequency..Video.game.music.`: How frequently respondent listens to Video Game music ("Rarely", "Sometimes", "Never", "Very Frequently")
+
+28. `Anxiety`: Self-reported anxiety, on a scale of 0-10
+
+29. `Depression`: Self-reported depression, on a scale of 0-10
+
+30. `Insomnia`: Self-reported insomnia, on a scale of 0-10
+
+31. `OCD`: Self-reported OCD, on a scale of 0-10
+
+32. `Music.effects`: If music improves, worsens, or has no effect on respondent's mental health conditions ("Worsen", "No Effect", "Improve")
+
+33. `Permissions`: Permissions to publicize data ("I understand")
+
+Ok cool. I have a better sense of what I'm working with now. 
+
+For the questions I'm looking to ask, I don't think I need to keep the `Timestamp` or `Permissions` variables. So let's get them out of my dataset.
+
+```{r}
+mxmh <- results[,c(-1, -33)]
+
+names(mxmh)
+```
+
+Ok cool! I think I'm ready to start working on graphs and visualizations now. 
+
+```{r, echo=FALSE}
+mxmh$Primary.streaming.service <- as.factor(mxmh$Primary.streaming.service)
+
+levels(mxmh$Primary.streaming.service)
+
+mxmh$Primary.streaming.service <- gsub("Other", " ", mxmh$Primary.streaming.service)
+
+mxmh$Primary.streaming.service <- gsub(" streaming service", "Other Streaming Service", mxmh$Primary.streaming.service)
+
+mxmh$Primary.streaming.service <- gsub("I do not use aOther Streaming Service", "I do not use a Streaming Service", mxmh$Primary.streaming.service)
+
+levels(mxmh$Primary.streaming.service)
+```
+
+
+## Data Visualization
+
+I have a few areas within the dataset that I'd like to explore, so let's start with age.
+
+### Age
+
+First, I want to make a general breakdown of the ages of our respondents.
+
+```{r, echo=FALSE}
+#| label: fig-hist1
+#| fig-cap: "A histogram showing the ages of respondents, in years."
+
+mxmh %>%
+  group_by(Age) %>%
+  ggplot(aes(x = Age)) + 
+  geom_histogram(fill = "#609b3a", color = "black", binwidth = 2) +
+  theme_bw() +
+  labs(x = "Age in years")
+  
+```
+
+Now, I want to see if age can lead to significant differences in respondents' answers to a couple of questions.
+
+The first thing I want to look at is if the primary streaming service of a participant has anything to do with their age. Do younger people listen on "Spotify"? Do older respondents listen on "Youtube" or "Apple Music"?
+
+```{r, echo=FALSE}
+#| label: fig-bar1
+#| fig-cap: "Bar graph showing the primary streaming service of respondents, colored by age."
+mxmh %>%
+  group_by(Age, Primary.streaming.service) %>%
+  ggplot(aes(x = Age, fill = Primary.streaming.service)) +
+  geom_bar(color = "black") +
+  theme_bw() +
+  labs(x = "Primary Streaming Service") +
+  labs(fill = "Primary Streaming Service") +
+  theme_bw() +
+  scale_fill_brewer(palette = "PuOr")
+```
+
+The data is very skewed for age, interesting. But it looks like Spotify is the most common streaming service across most ages. Apple Music and Youtube Music seem to follow after that. 
+
+The last thing for age I want to look at is how age and mental health is correlated. Are younger people struggling more than old people?
+
+```{r, echo=FALSE}
+#| label: fig-bar2
+#| fig-cap: "Bar graphs showing distribution of mental health conditions across ages, faceted by age."
+
+mxmh %>%
+  group_by(Age, Depression) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = Depression, y = N)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~Age, scales = "fixed", nrow = 10, dir = "h") +
+  theme_bw()
+```
+
+My graph looks a little rough, but it seems that respondents between 14-33 have the most variability and highest scores in their self-reported depression. 
+
+```{r}
+#| fig-cap: Counting how many instances of the ages in the middle of the range
+mxmh_updatedages <- mxmh %>%
+  filter(Age > 13, Age <= 32) %>%
+  count(Age)
+
+mxmh_updatedages  
+```
+
+Since our data is so skewed towards younger respondents, I'm going to limit our respondents to those between the ages of 14 and 32.
+
+```{r}
+mxmh_cut <- subset(mxmh, Age >= 14 & Age <= 32,
+select=Age:Music.effects)
+```
+
+### Mental Health
+
+Now that we've explored how age affects some of the results of the survey, let's look at various aspects of the mental health part of this survey. I'm counting this as the self-report scores from the `Anxiety`, `Depression`, `Insomnia`, and `OCD` variables, and the `Music.effects` variable. 
+
+First, I want to see if there are any mental health conditions that are more commonly self-reported by respondents.
+
+```{r, echo=FALSE}
+#| label: hist-3
+#| fig-cap: "Histograms showing distribution of each mental health condition"
+
+mxmh_cut %>%
+  group_by(Insomnia, OCD, Depression, Anxiety) %>%
+  filter(Insomnia > 0) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = Insomnia)) +
+  geom_bar(fill = "darkred", color = "black")
+
+mxmh_cut %>%
+  group_by(Insomnia, OCD, Depression, Anxiety) %>%
+  filter(OCD > 0) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = OCD)) +
+  geom_bar(fill = "#098e94", color = "black")
+
+mxmh_cut %>%
+  group_by(Insomnia, OCD, Depression, Anxiety) %>%
+  filter(Depression > 0) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = Depression)) +
+  geom_bar(fill = "#076a20", color = "black")
+
+mxmh_cut %>%
+  group_by(Insomnia, OCD, Depression, Anxiety) %>%
+  filter(Anxiety > 0) %>%
+  summarize(N = n()) %>%
+  ggplot(aes(x = Anxiety)) +
+  geom_bar(fill = "#c68015", color = "black")
+
+```
+
+It looks like Depression and Anxiety have the most self-reports, especially with higher scores, while OCD and Insomnia have higher amounts of self-reports at lower scores, generally. 
+
+I have a few more questions related to some of these mental health conditions in specific. To start with, I'm curious if respondents with higher self-reported `Insomnia` listen to more music in a day than those who don't.
+
+```{r, echo=FALSE}
+#| label: fig-line2
+#| fig-cap: "Line graph showing hours of music per day and self-reported Insomnia score, colored by if music has an effect on mental health."
+
+mxmh_cut %>%
+  group_by(Hours.per.day, Insomnia) %>%
+  summarise(meanInsom = mean(Insomnia)) %>%
+  ggplot(aes(x = meanInsom, y = Hours.per.day, color = Hours.per.day)) +
+  geom_jitter(width = 0.75, height = 0.75) +
+  theme_bw() +
+  labs(x = "Self-Reported Insomnia", y = "Hours per Day Listening to Music") +
+  labs(color = "Hours per Day") +
+  geom_smooth()
+```
+
+Overall, not really. It increases slightly as the insomnia scores do and there's several outliers, but nothing really significant.
+
+I want to see if there's any correlation between different genres and the self-reported `Depression` scores. 
+
+```{r, echo=FALSE}
+#| label: fig-hist4
+#| fig-cap: "Histogram showing breakdown of Depression self-report scores, colored by `Fav.genre`."
+
+mxmh_cut %>%
+  group_by(Fav.genre, Depression) %>%
+  ggplot(aes(x = Depression, fill = Fav.genre)) +
+  geom_histogram(color = "black", bins = 10) +
+  theme_bw() +
+  labs(fill = "Favorite Genre") +
+  scale_fill_manual(values = c("#f7909f", "#e2647f", "#d1698c", "#e8555f", "#da332a", "#fe672a", "#ff7a34", "#ffb22c", "#83ba69", "#4ca64e", "#2a897e", "#287f91", "#62b0dc", "#6492cb", "#4975c4", "#3b4f93", "#32436f", "#5f5395", "#6f4483", "#5a3340"))
+```
+
+Interesting, it seems to be evenly distributed among most genres, except for rock and metal music being more prominent. I wonder if I had gender data from my respondents if there would have been any more effects there. 
+
+One of the last questions about Mental Health I have is if there is a correlation between `Anxiety` and listening to new music while working. I know music can be very grounding, so I wonder if someone who has a high rating of anxiety would listen to it more while working.
+
+```{r, echo=FALSE}
+#| label: fig-bar3
+#| fig-cap: Bar graph showing self-reported `Anxiety`, colored by if the respondent listened to music while studying or working."
+
+mxmh_cut %>%
+  group_by(Anxiety, While.working) %>%
+  ggplot(aes(x = Anxiety, fill = While.working)) +
+  geom_histogram(color = "black") +
+  theme_bw() +
+  labs(x = "Self-Reported Anxiety") +
+  labs(fill = "If Respondent Listens to Music While Studying or Working") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+So, it does seem that the more people self-report anxiety, the more they listen to music while they work. However, it looks like this result might be because more people rated themselves higher in anxiety in general.
+
+
+### Genres
+
+Almost there! I had one last question about the data I had. I want to see if different streaming services and different favorite genres overlap. Do the metalheads really love Pandora? Do the rap listeners stay away from Spotify?
+
+```{r, echo=FALSE}
+#| label: fig-hist7
+#| fig-cap: "Histogram showing the different favorite genres of participants, colored by preferred streaming service."
+
+mxmh_cut %>%
+  group_by(Fav.genre, Primary.streaming.service) %>%
+  ggplot(aes(x = Fav.genre, fill = Primary.streaming.service)) +
+  geom_bar(color = "black") +
+  theme_bw() +
+  labs(x = "Self-Reported Favorite Genre", fill = "Primary Streaming Service") +
+  coord_flip() +
+  scale_fill_brewer(palette = "Paired")
+```
+
+Ok, cool! It looks like Spotify is overall the most popular, and a significant amount listen to pop music on Youtube music and listen to rock music not on a streaming service at all (maybe CDs?)
+
+I think that's enough exploring this dataset for now.  Overall, there were a lot of young people and a lot of people who listen on Spotify. The data set also saw a significant amount of people with high self-report scores of depression and anxiety. And a lot of people who listen to Rock music as well.
+
+## End of Spotify Wrapped Pt 2.
+
+# Thank you!!
+

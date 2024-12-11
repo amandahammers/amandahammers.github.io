@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Amanda Hammers">
+<meta name="keywords" content="R, data viz">
+
+<title>Amanda Hammers - Analyzing Data from the 2022 Music &amp; Mental Health Survey</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Amanda Hammers</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./project.html" rel="" target="">
+ <span class="menu-text">STT 2860 Projects</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <a href="https://www.linkedin.com/in/amanda-hammers-068bbb250/" rel="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://github.com/amandahammers/amandahammers.github.io">
+            Source Code
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <ul class="collapse">
+  <li><a href="#loading-the-packages-well-need" id="toc-loading-the-packages-well-need" class="nav-link" data-scroll-target="#loading-the-packages-well-need">Loading the Packages We’ll Need</a></li>
+  <li><a href="#now-to-import-the-data" id="toc-now-to-import-the-data" class="nav-link" data-scroll-target="#now-to-import-the-data">Now To Import the Data</a></li>
+  <li><a href="#and-time-to-look-through-it" id="toc-and-time-to-look-through-it" class="nav-link" data-scroll-target="#and-time-to-look-through-it">And Time to Look Through It</a></li>
+  <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link" data-scroll-target="#data-visualization">Data Visualization</a>
+  <ul class="collapse">
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">Age</a></li>
+  <li><a href="#mental-health" id="toc-mental-health" class="nav-link" data-scroll-target="#mental-health">Mental Health</a></li>
+  <li><a href="#genres" id="toc-genres" class="nav-link" data-scroll-target="#genres">Genres</a></li>
+  </ul></li>
+  <li><a href="#end-of-spotify-wrapped-pt-2." id="toc-end-of-spotify-wrapped-pt-2." class="nav-link" data-scroll-target="#end-of-spotify-wrapped-pt-2.">End of Spotify Wrapped Pt 2.</a></li>
+  </ul></li>
+  <li><a href="#thank-you" id="toc-thank-you" class="nav-link" data-scroll-target="#thank-you">Thank you!!</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analyzing Data from the 2022 <a href="https://www.kaggle.com/datasets/catherinerasgaitis/mxmh-survey-results/data">Music &amp; Mental Health Survey</a></h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Amanda Hammers </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.appstate.edu/">
+            Appalachian State University
+            </a>
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Last modified on December 11, 2024 03:52:00 Eastern Standard Time</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    <p>This is a project aiming to analyze parts of the “Music &amp; Mental Health Survey Results” dataset by Catherine Rasgaitis from 2022.</p>
+  </div>
+</div>
+
+</header>
+
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<p>This project will look at the data provided on the results of the Music &amp; Mental Health Survey from 2022. The Google form asked people to answer several questions about their (self-reported) listening habits, music genres, and mental health.</p>
+<p>Let’s start!</p>
+<section id="loading-the-packages-well-need" class="level2">
+<h2 class="anchored" data-anchor-id="loading-the-packages-well-need">Loading the Packages We’ll Need</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For data manipulation and tidying</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># For mapping</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapproj)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For data visualizations</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"RColorBrewer"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"viridis"</span>)  </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># For modeling and machine learning</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="now-to-import-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="now-to-import-the-data">Now To Import the Data</h2>
+<p>The data was downloaded from <a href="https://www.kaggle.com/datasets/catherinerasgaitis/mxmh-survey-results/data">Kaggle</a>. The dataset contains one dataset.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"mxmh_survey_results.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="and-time-to-look-through-it" class="level2">
+<h2 class="anchored" data-anchor-id="and-time-to-look-through-it">And Time to Look Through It</h2>
+<p>I’ll start by just getting a general look at the data file.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 736
+Columns: 33
+$ Timestamp                    &lt;chr&gt; "8/27/2022 19:29:02", "8/27/2022 19:57:31…
+$ Age                          &lt;int&gt; 18, 63, 18, 61, 18, 18, 18, 21, 19, 18, 1…
+$ Primary.streaming.service    &lt;chr&gt; "Spotify", "Pandora", "Spotify", "YouTube…
+$ Hours.per.day                &lt;dbl&gt; 3.0, 1.5, 4.0, 2.5, 4.0, 5.0, 3.0, 1.0, 6…
+$ While.working                &lt;chr&gt; "Yes", "Yes", "No", "Yes", "Yes", "Yes", …
+$ Instrumentalist              &lt;chr&gt; "Yes", "No", "No", "No", "No", "Yes", "Ye…
+$ Composer                     &lt;chr&gt; "Yes", "No", "No", "Yes", "No", "Yes", "N…
+$ Fav.genre                    &lt;chr&gt; "Latin", "Rock", "Video game music", "Jaz…
+$ Exploratory                  &lt;chr&gt; "Yes", "Yes", "No", "Yes", "Yes", "Yes", …
+$ Foreign.languages            &lt;chr&gt; "Yes", "No", "Yes", "Yes", "No", "Yes", "…
+$ BPM                          &lt;int&gt; 156, 119, 132, 84, 107, 86, 66, 95, 94, 1…
+$ Frequency..Classical.        &lt;chr&gt; "Rarely", "Sometimes", "Never", "Sometime…
+$ Frequency..Country.          &lt;chr&gt; "Never", "Never", "Never", "Never", "Neve…
+$ Frequency..EDM.              &lt;chr&gt; "Rarely", "Never", "Very frequently", "Ne…
+$ Frequency..Folk.             &lt;chr&gt; "Never", "Rarely", "Never", "Rarely", "Ne…
+$ Frequency..Gospel.           &lt;chr&gt; "Never", "Sometimes", "Never", "Sometimes…
+$ Frequency..Hip.hop.          &lt;chr&gt; "Sometimes", "Rarely", "Rarely", "Never",…
+$ Frequency..Jazz.             &lt;chr&gt; "Never", "Very frequently", "Rarely", "Ve…
+$ Frequency..K.pop.            &lt;chr&gt; "Very frequently", "Rarely", "Very freque…
+$ Frequency..Latin.            &lt;chr&gt; "Very frequently", "Sometimes", "Never", …
+$ Frequency..Lofi.             &lt;chr&gt; "Rarely", "Rarely", "Sometimes", "Sometim…
+$ Frequency..Metal.            &lt;chr&gt; "Never", "Never", "Sometimes", "Never", "…
+$ Frequency..Pop.              &lt;chr&gt; "Very frequently", "Sometimes", "Rarely",…
+$ Frequency..R.B.              &lt;chr&gt; "Sometimes", "Sometimes", "Never", "Somet…
+$ Frequency..Rap.              &lt;chr&gt; "Very frequently", "Rarely", "Rarely", "N…
+$ Frequency..Rock.             &lt;chr&gt; "Never", "Very frequently", "Rarely", "Ne…
+$ Frequency..Video.game.music. &lt;chr&gt; "Sometimes", "Rarely", "Very frequently",…
+$ Anxiety                      &lt;dbl&gt; 3, 7, 7, 9, 7, 8, 4, 5, 2, 2, 7, 1, 9, 2,…
+$ Depression                   &lt;dbl&gt; 0, 2, 7, 7, 2, 8, 8, 3, 0, 2, 7, 0, 3, 1,…
+$ Insomnia                     &lt;dbl&gt; 1, 2, 10, 3, 5, 7, 6, 5, 0, 5, 4, 0, 2, 2…
+$ OCD                          &lt;dbl&gt; 0, 1, 2, 3, 9, 7, 0, 3, 0, 1, 7, 1, 7, 0,…
+$ Music.effects                &lt;chr&gt; "", "", "No effect", "Improve", "Improve"…
+$ Permissions                  &lt;chr&gt; "I understand.", "I understand.", "I unde…</code></pre>
+</div>
+</div>
+<p>Wow, that’s kind of a lot!</p>
+<p>I wonder how many variables that actually is, let me see with <code>ncol</code>. It looks like there are 33 variables.</p>
+<p>In order for me to better understand what I’m looking at, I’m going to give a description of each variable:</p>
+<ol type="1">
+<li><p><code>Timestamp</code>: Date and time when form was submitted in MM/DD/YYYY HH:MM:SS format</p></li>
+<li><p><code>Age</code>: Respondent’s age, in years</p></li>
+<li><p><code>Primary.streaming.service</code>: Respondent’s primary streaming service (“Spotify”, “Pandora”, “YouTube Music”, etc.)</p></li>
+<li><p><code>Hours.per.day</code>: Number of hours the respondent listens to music per day, in .5 increments</p></li>
+<li><p><code>While.working</code>: If respondent listens to music while studying/working or not (“Yes”/“No”)</p></li>
+<li><p><code>Instrumentalist</code>: If respondent plays an instrument regularly or not (“Yes”/“No”)</p></li>
+<li><p><code>Composer</code>: If respondent regularly composes music or not (“Yes”/“No”)</p></li>
+<li><p><code>Fav.genre</code>: Respondent’s favorite or top genre (“Pop”, “Video Game Music”, “Rap”, etc.)</p></li>
+<li><p><code>Exploratory</code>: If respondent actively explores new artists/genres (“Yes”/“No”)</p></li>
+<li><p><code>Foreign.languages</code>: If respondent regularly listens to music with lyrics in a language they are not fluent in (“Yes”/“No”)</p></li>
+<li><p><code>BPM</code>: beats per minute of favorite genre</p></li>
+<li><p><code>Frequency..Classical.</code>: How frequently respondent listens to classical music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Country.</code>: How frequently respondent listens to country music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..EDM.</code>: How frequently respondent listens to EDM music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Folk.</code>: How frequently respondent listens to Folk music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Gospel.</code>: How frequently respondent listens to Gospel music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Hip.hop.</code>: How frequently respondent listens to Hip Hop music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Jazz.</code>: How frequently respondent listens to Jazz music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..K.pop.</code>: How frequently respondent listens to K-Pop music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Latin.</code>: How frequently respondent listens to Latin music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Lofi.</code>: How frequently respondent listens to Lofi music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Metal.</code>: How frequently respondent listens to Metal music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Pop.</code>: How frequently respondent listens to Pop music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..R.B.</code>: How frequently respondent listens to R&amp;B music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Rap.</code>: How frequently respondent listens to Rap music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Rock.</code>: How frequently respondent listens to Rock music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Frequency..Video.game.music.</code>: How frequently respondent listens to Video Game music (“Rarely”, “Sometimes”, “Never”, “Very Frequently”)</p></li>
+<li><p><code>Anxiety</code>: Self-reported anxiety, on a scale of 0-10</p></li>
+<li><p><code>Depression</code>: Self-reported depression, on a scale of 0-10</p></li>
+<li><p><code>Insomnia</code>: Self-reported insomnia, on a scale of 0-10</p></li>
+<li><p><code>OCD</code>: Self-reported OCD, on a scale of 0-10</p></li>
+<li><p><code>Music.effects</code>: If music improves, worsens, or has no effect on respondent’s mental health conditions (“Worsen”, “No Effect”, “Improve”)</p></li>
+<li><p><code>Permissions</code>: Permissions to publicize data (“I understand”)</p></li>
+</ol>
+<p>Ok cool. I have a better sense of what I’m working with now.</p>
+<p>For the questions I’m looking to ask, I don’t think I need to keep the <code>Timestamp</code> or <code>Permissions</code> variables. So let’s get them out of my dataset.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mxmh <span class="ot">&lt;-</span> results[,<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">33</span>)]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(mxmh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Age"                          "Primary.streaming.service"   
+ [3] "Hours.per.day"                "While.working"               
+ [5] "Instrumentalist"              "Composer"                    
+ [7] "Fav.genre"                    "Exploratory"                 
+ [9] "Foreign.languages"            "BPM"                         
+[11] "Frequency..Classical."        "Frequency..Country."         
+[13] "Frequency..EDM."              "Frequency..Folk."            
+[15] "Frequency..Gospel."           "Frequency..Hip.hop."         
+[17] "Frequency..Jazz."             "Frequency..K.pop."           
+[19] "Frequency..Latin."            "Frequency..Lofi."            
+[21] "Frequency..Metal."            "Frequency..Pop."             
+[23] "Frequency..R.B."              "Frequency..Rap."             
+[25] "Frequency..Rock."             "Frequency..Video.game.music."
+[27] "Anxiety"                      "Depression"                  
+[29] "Insomnia"                     "OCD"                         
+[31] "Music.effects"               </code></pre>
+</div>
+</div>
+<p>Ok cool! I think I’m ready to start working on graphs and visualizations now.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] ""                                  "Apple Music"                      
+[3] "I do not use a streaming service." "Other streaming service"          
+[5] "Pandora"                           "Spotify"                          
+[7] "YouTube Music"                    </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+</section>
+<section id="data-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualization">Data Visualization</h2>
+<p>I have a few areas within the dataset that I’d like to explore, so let’s start with age.</p>
+<section id="age" class="level3">
+<h3 class="anchored" data-anchor-id="age">Age</h3>
+<p>First, I want to make a general breakdown of the ages of our respondents.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-hist1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-hist1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: A histogram showing the ages of respondents, in years.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Now, I want to see if age can lead to significant differences in respondents’ answers to a couple of questions.</p>
+<p>The first thing I want to look at is if the primary streaming service of a participant has anything to do with their age. Do younger people listen on “Spotify”? Do older respondents listen on “Youtube” or “Apple Music”?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-bar1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Bar graph showing the primary streaming service of respondents, colored by age.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The data is very skewed for age, interesting. But it looks like Spotify is the most common streaming service across most ages. Apple Music and Youtube Music seem to follow after that.</p>
+<p>The last thing for age I want to look at is how age and mental health is correlated. Are younger people struggling more than old people?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-bar2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Bar graphs showing distribution of mental health conditions across ages, faceted by age.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>My graph looks a little rough, but it seems that respondents between 14-33 have the most variability and highest scores in their self-reported depression.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mxmh_updatedages <span class="ot">&lt;-</span> mxmh <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">13</span>, Age <span class="sc">&lt;=</span> <span class="dv">32</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Age)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>mxmh_updatedages  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Age  n
+1   14 17
+2   15 21
+3   16 44
+4   17 59
+5   18 85
+6   19 61
+7   20 40
+8   21 52
+9   22 39
+10  23 37
+11  24 20
+12  25 22
+13  26 22
+14  27 18
+15  28 13
+16  29 13
+17  30 11
+18  31 13
+19  32 16</code></pre>
+</div>
+</div>
+<p>Since our data is so skewed towards younger respondents, I’m going to limit our respondents to those between the ages of 14 and 32.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mxmh_cut <span class="ot">&lt;-</span> <span class="fu">subset</span>(mxmh, Age <span class="sc">&gt;=</span> <span class="dv">14</span> <span class="sc">&amp;</span> Age <span class="sc">&lt;=</span> <span class="dv">32</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">select=</span>Age<span class="sc">:</span>Music.effects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mental-health" class="level3">
+<h3 class="anchored" data-anchor-id="mental-health">Mental Health</h3>
+<p>Now that we’ve explored how age affects some of the results of the survey, let’s look at various aspects of the mental health part of this survey. I’m counting this as the self-report scores from the <code>Anxiety</code>, <code>Depression</code>, <code>Insomnia</code>, and <code>OCD</code> variables, and the <code>Music.effects</code> variable.</p>
+<p>First, I want to see if there are any mental health conditions that are more commonly self-reported by respondents.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/hist-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Histograms showing distribution of each mental health condition</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/hist-3-2.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Histograms showing distribution of each mental health condition</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/hist-3-3.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Histograms showing distribution of each mental health condition</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/hist-3-4.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Histograms showing distribution of each mental health condition</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It looks like Depression and Anxiety have the most self-reports, especially with higher scores, while OCD and Insomnia have higher amounts of self-reports at lower scores, generally.</p>
+<p>I have a few more questions related to some of these mental health conditions in specific. To start with, I’m curious if respondents with higher self-reported <code>Insomnia</code> listen to more music in a day than those who don’t.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-line2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-line2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Line graph showing hours of music per day and self-reported Insomnia score, colored by if music has an effect on mental health.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Overall, not really. It increases slightly as the insomnia scores do and there’s several outliers, but nothing really significant.</p>
+<p>I want to see if there’s any correlation between different genres and the self-reported <code>Depression</code> scores.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-hist4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-hist4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Histogram showing breakdown of Depression self-report scores, colored by <code>Fav.genre</code>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Interesting, it seems to be evenly distributed among most genres, except for rock and metal music being more prominent. I wonder if I had gender data from my respondents if there would have been any more effects there.</p>
+<p>One of the last questions about Mental Health I have is if there is a correlation between <code>Anxiety</code> and listening to new music while working. I know music can be very grounding, so I wonder if someone who has a high rating of anxiety would listen to it more while working.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-bar3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-bar3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;6: Bar graph showing self-reported <code>Anxiety</code>, colored by if the respondent listened to music while studying or working.”</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>So, it does seem that the more people self-report anxiety, the more they listen to music while they work. However, it looks like this result might be because more people rated themselves higher in anxiety in general.</p>
+</section>
+<section id="genres" class="level3">
+<h3 class="anchored" data-anchor-id="genres">Genres</h3>
+<p>Almost there! I had one last question about the data I had. I want to see if different streaming services and different favorite genres overlap. Do the metalheads really love Pandora? Do the rap listeners stay away from Spotify?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-hist7" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="musicxmentalhealthfinal-amandahammers_files/figure-html/fig-hist7-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;7: Histogram showing the different favorite genres of participants, colored by preferred streaming service.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Ok, cool! It looks like Spotify is overall the most popular, and a significant amount listen to pop music on Youtube music and listen to rock music not on a streaming service at all (maybe CDs?)</p>
+<p>I think that’s enough exploring this dataset for now. Overall, there were a lot of young people and a lot of people who listen on Spotify. The data set also saw a significant amount of people with high self-report scores of depression and anxiety. And a lot of people who listen to Rock music as well.</p>
+</section>
+</section>
+<section id="end-of-spotify-wrapped-pt-2." class="level2">
+<h2 class="anchored" data-anchor-id="end-of-spotify-wrapped-pt-2.">End of Spotify Wrapped Pt 2.</h2>
+</section>
+</section>
+<section id="thank-you" class="level1">
+<h1>Thank you!!</h1>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
